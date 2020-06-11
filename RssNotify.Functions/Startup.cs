@@ -35,9 +35,17 @@ namespace RssNotify.Functions
                 .Configure<IConfiguration>((matrix, configuration) =>
                 {
                     configuration.Bind("Matrix", matrix);
+                    if (string.IsNullOrEmpty(matrix.AccessToken))
+                        throw new NotSupportedException("Missing 'Matrix:AccessToken'");
+                    if (string.IsNullOrEmpty(matrix.RoomId))
+                        throw new NotSupportedException("Missing 'Matrix:RoomId'");
+                    if (string.IsNullOrEmpty(matrix.TimeZone))
+                        throw new NotSupportedException("Missing 'Matrix:Timezone'");
+                    if (string.IsNullOrEmpty(matrix.TableName))
+                        throw new NotSupportedException("Missing 'Matrix:TableName'");
                     // otherwise will spam with all old content
                     // on first launch this will still spam but then persist in table and on subsequent runs only new subscriptions are added
-                    matrix.IgnoreSubscriptionsOlderThan = DateTimeOffset.UtcNow.Date.AddDays(-2);
+                    matrix.IgnoreSubscriptionsOlderThan = DateTimeOffset.UtcNow.Date.AddDays(-3);
                 });
             builder.Services.AddSingleton(p =>
             {
