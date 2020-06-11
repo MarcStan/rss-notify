@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
+using Microsoft.Extensions.Options;
 using RssNotify.Services;
+using RssNotify.Services.Configuration;
 using System;
 using System.Linq;
 using System.Threading;
@@ -13,13 +15,16 @@ namespace RssNotify.Functions
         private const string Every5Minutes = "0 0/5 * * * *";
         private readonly ISubscriptionService _subscriptionService;
         private readonly IMatrixNotificationService _notificationService;
+        private readonly MatrixConfiguration _configuration;
 
         public BotFunctions(
             ISubscriptionService subscriptionService,
-            IMatrixNotificationService notificationService)
+            IMatrixNotificationService notificationService,
+            IOptions<MatrixConfiguration> options)
         {
             _subscriptionService = subscriptionService;
             _notificationService = notificationService;
+            _configuration = options.Value;
         }
 
         /// <summary>
@@ -34,7 +39,7 @@ namespace RssNotify.Functions
             foreach (var u in updates.OrderBy(x => x.LastUpdated))
             {
                 var date = TimeZoneInfo
-                    .ConvertTimeFromUtc(u.LastUpdated.UtcDateTime, TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time"))
+                    .ConvertTimeFromUtc(u.LastUpdated.UtcDateTime, TimeZoneInfo.FindSystemTimeZoneById(_configuration.TimeZone))
                     .ToString("yyyy/MM/dd HH:mm");
                 await _notificationService.SendAsync($"{u.Name} has posted <a href=\"{u.Url}\">{u.Message}</a> @ {date}", cancellationToken);
                 await _subscriptionService.MarkAsReceivedAsync(u, cancellationToken);
@@ -51,6 +56,13 @@ namespace RssNotify.Functions
             [HttpTrigger("POST", Route = "message")] Message message,
             CancellationToken cancellationToken)
         {
+            if (message == null ||
+                string.IsNullOrEmpty(message.Subject) ||
+                string.IsNullOrEmpty(message.Body))
+            {
+                throw new NotSupportedException("Expected message to contain subject and body!");
+            }
+
             await _notificationService.SendAsync($"{message.Subject}: {message.Body}", cancellationToken);
 
             return new OkResult();

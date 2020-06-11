@@ -6,6 +6,7 @@
     "AzureWebJobsDashboard": "UseDevelopmentStorage=true",
     "KeyVaultName": "rss-notify",
     "Matrix:TableName": "ReceivedSubscriptions",
+    "Matrix:TimeZone": "Mountain Time (US & Canada)",
     "Subscriptions:0": "{\"type\": \"rss\", \"url\": \"https://invidio.us/feed/channel/UCsXVk37bltHxD1rDPwtNM8Q\", \"name\": \"Kurzgesagt\"}"
   }
 }
