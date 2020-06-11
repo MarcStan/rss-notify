@@ -46,7 +46,6 @@ namespace RssNotify.Functions
         /// </summary>
         /// <param name="message"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
         [FunctionName("bot-post")]
         public async Task<IActionResult> PostAsync(
             [HttpTrigger("POST", Route = "message")] Message message,
