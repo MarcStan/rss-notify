@@ -62,7 +62,11 @@ Once everything is setup you can add subscriptions by creating keyvault entries 
 Each entry should then contain this json structure:
 
 ``` json
-{"type": "rss", "url": "https://invidio.us/feed/channel/UCsXVk37bltHxD1rDPwtNM8Q", "name": "Kurzgesagt"}
+{
+  "type": "rss",
+  "url": "https://invidio.us/feed/channel/UCsXVk37bltHxD1rDPwtNM8Q",
+  "name": "Kurzgesagt"
+}
 ```
 
 Because keyvault doesn't support multiline you should just flatten it into a single line:
