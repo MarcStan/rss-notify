@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "AzureWebJobsDashboard": "UseDevelopmentStorage=true",
+    "KeyVaultName": "rss-notify",
+    "Matrix:TableName": "ReceivedSubscriptions",
+    "Subscriptions:0": "{\"type\": \"rss\", \"url\": \"https://invidio.us/feed/channel/UCsXVk37bltHxD1rDPwtNM8Q\", \"name\": \"Kurzgesagt\"}"
+  }
+}
