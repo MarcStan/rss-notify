@@ -16,8 +16,6 @@ jobs:
         dotnet-version: 3.1.202
     - name: build
       run: dotnet build -c Release
-    - name: test
-      run: dotnet test -c Release --no-build
     - name: publish
       run: dotnet publish -c Release --no-build RssNotify.Functions/RssNotify.Functions.csproj -o release
     - uses: actions/upload-artifact@3446296876d12d4e3a0f3145a3c87e67bf0a16b5 # pin@v1 

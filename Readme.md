@@ -1,6 +1,6 @@
 # Rss Notify
 
-Rss notification service that sends messages to a matrix chatroom whenever a rss feed is updated.
+Matrix bot that posts messages whenever rss feeds are updated.
 
 Notifications based on [notification-targets](https://github.com/MarcStan/notification-targets).
 

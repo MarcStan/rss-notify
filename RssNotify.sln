@@ -5,9 +5,7 @@ VisualStudioVersion = 16.0.30128.36
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RssNotify.Functions", "RssNotify.Functions\RssNotify.Functions.csproj", "{63929DB1-0A62-4C92-81A9-5EB221DE9BD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssNotify.Services", "RssNotify.Services\RssNotify.Services.csproj", "{661A3817-4662-4C35-B74D-4A1A52B5BD06}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RssNotify.Services.Tests", "RssNotify.Services.Tests\RssNotify.Services.Tests.csproj", "{FE4EF721-641B-40F2-8257-9311F5E7C5BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RssNotify.Services", "RssNotify.Services\RssNotify.Services.csproj", "{661A3817-4662-4C35-B74D-4A1A52B5BD06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{661A3817-4662-4C35-B74D-4A1A52B5BD06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{661A3817-4662-4C35-B74D-4A1A52B5BD06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{661A3817-4662-4C35-B74D-4A1A52B5BD06}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FE4EF721-641B-40F2-8257-9311F5E7C5BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE4EF721-641B-40F2-8257-9311F5E7C5BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE4EF721-641B-40F2-8257-9311F5E7C5BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE4EF721-641B-40F2-8257-9311F5E7C5BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
