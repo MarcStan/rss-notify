@@ -5,7 +5,7 @@ on:
 
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-  ResourceGroup: rss-notify-v2
+  ResourceGroup: rss-notify
 jobs:
   build:
     runs-on: ubuntu-latest
