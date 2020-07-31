@@ -16,29 +16,30 @@ namespace RssNotify.Services
 {
     public class SubscriptionService : ISubscriptionService
     {
-        private readonly Subscription[] _subscriptions;
         private readonly IHttpClient _httpClient;
         private readonly CloudTable _table;
         private MatrixConfiguration _configuration;
+        private readonly ISubscriptionProvider _subscriptionProvider;
 
         public SubscriptionService(
             IHttpClient httpClient,
-            Subscription[] subscriptions,
+            ISubscriptionProvider subscriptionProvider,
             CloudStorageAccount account,
             IOptions<MatrixConfiguration> configuration)
         {
-            _subscriptions = subscriptions;
             _httpClient = httpClient;
 
             var tableName = configuration.Value.TableName;
             _configuration = configuration.Value;
             var client = account.CreateCloudTableClient();
             _table = client.GetTableReference(tableName);
+            _subscriptionProvider = subscriptionProvider;
         }
 
         public async Task<SubscriptionUpdate[]> GetLatestAsync(CancellationToken cancellationToken)
         {
-            var tasks = _subscriptions
+            var subscriptions = await _subscriptionProvider.GetSubscriptionsAsync(cancellationToken);
+            var tasks = subscriptions
                 .Select(async s =>
                 {
                     try

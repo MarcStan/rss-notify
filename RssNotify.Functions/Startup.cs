@@ -26,6 +26,7 @@ namespace RssNotify.Functions
 
             var cfgBuilder = new ConfigurationBuilder()
                 .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
             var tmpConfig = cfgBuilder.Build();
 
@@ -47,15 +48,7 @@ namespace RssNotify.Functions
                     // on first launch this will still spam but then persist in table and on subsequent runs only new subscriptions are added
                     matrix.IgnoreSubscriptionsOlderThan = DateTimeOffset.UtcNow.Date.AddDays(-3);
                 });
-            builder.Services.AddSingleton(p =>
-            {
-                var configuration = p.GetRequiredService<IConfiguration>();
-                var data = configuration.GetSection("Subscriptions").Get<string[]>();
-                var parsed = data
-                    .Select(JsonConvert.DeserializeObject<Subscription>)
-                    .ToArray();
-                return parsed;
-            });
+            builder.Services.AddSingleton<ISubscriptionProvider, SubscriptionProvider>();
 
             builder.Services.AddSingleton(p =>
             {

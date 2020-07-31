@@ -55,7 +55,24 @@ You should then be able to use the POST endpoint to test sending messages as the
 
 The bot check function should also auto start locally and parse the rss feed for updates. If any are found they will be posted to the channel, too.
 
-## Adding subscriptions
+# Configuration
+
+By default subscriptions are loaded from IConfiguration (which in turn loads app settings and keyvault settings).
+
+Alternative sources can be used by setting the `subscriptionSource` key (either in ARM template or app settings):
+
+``` json
+{
+  "SubscriptionSource": "storage"
+}
+```
+
+Currently these sources are supported:
+
+* nothing set or `config` - default behaviour, will load `Subscriptions--X` keys from IConfiguration where X is any number
+* `storage` - will look for `config/subscriptions.json` and load subscriptions from said file
+
+## Adding subscriptions to IConfiguration
 
 Once everything is setup you can add subscriptions by creating keyvault entries `Subscription--X` where X is a number (I recommend you start at 0 and count upwards, but interestingly the configuration system ignores skipped values and still correctly maps them to an array).
 
@@ -78,3 +95,22 @@ Because keyvault doesn't support multiline you should just flatten it into a sin
 You can also use the keyvault content type to set it to a readable name.
 
 On next run the bot should pick up the new rss source and deliver notifications if updates are found (initially it will look for updates in the last 3 days only).
+
+## Adding subscriptions to storage
+
+The file `config/subscriptions.json` must contain an array like so to have subscriptions load from storage:
+
+``` json
+[
+  {
+    "type": "rss",
+    "url": "https://invidio.us/feed/channel/UCsXVk37bltHxD1rDPwtNM8Q",
+    "name": "Kurzgesagt"
+  },
+  {
+    "type": "rss",
+    "url": "https://invidio.us/feed/channel/UCsXVk37bltHxD1rDPwtNM8Q",
+    "name": "Kurzgesagt #2"
+  }
+]
+```
