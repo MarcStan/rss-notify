@@ -63,7 +63,7 @@ namespace RssNotify.Functions
                 throw new NotSupportedException("Expected message to contain subject and body!");
             }
 
-            await _notificationService.SendAsync($"{message.Subject}: {message.Body}", cancellationToken);
+            await _notificationService.SendAsync($"{message.Subject}: {message.Body}", message.RoomId, cancellationToken);
 
             return new OkResult();
         }
@@ -73,6 +73,11 @@ namespace RssNotify.Functions
             public string Subject { get; set; }
 
             public string Body { get; set; }
+
+            /// <summary>
+            /// Optional override - allows the sender to determine the target room (only rooms where the bot account has previously been added can be used).
+            /// </summary>
+            public string RoomId { get; set; }
         }
     }
 }

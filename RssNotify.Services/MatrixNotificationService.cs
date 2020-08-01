@@ -20,10 +20,16 @@ namespace RssNotify.Services
             _configuration = options.Value;
         }
 
-        public async Task SendAsync(string message, CancellationToken cancellationToken)
+        public Task SendAsync(string message, CancellationToken cancellationToken)
+            => SendAsync(message, null, cancellationToken);
+
+        public async Task SendAsync(string message, string roomId, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrEmpty(roomId))
+                roomId = null;
+
             var reqId = Guid.NewGuid().ToString();
-            var response = await _httpClient.PutAsync($"{BaseUrl}/client/r0/rooms/{_configuration.RoomId}/send/m.room.message/{reqId}?access_token={_configuration.AccessToken}", new
+            var response = await _httpClient.PutAsync($"{BaseUrl}/client/r0/rooms/{roomId ?? _configuration.RoomId}/send/m.room.message/{reqId}?access_token={_configuration.AccessToken}", new
             {
                 // https://github.com/matrix-org/matrix-doc/pull/1397/files
                 msgtype = "m.text",

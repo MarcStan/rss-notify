@@ -7,13 +7,10 @@ using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using RssNotify.Functions;
 using RssNotify.Services;
 using RssNotify.Services.Configuration;
-using RssNotify.Services.Models;
 using System;
-using System.Linq;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 namespace RssNotify.Functions
