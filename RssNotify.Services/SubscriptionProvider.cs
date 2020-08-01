@@ -45,16 +45,16 @@ namespace RssNotify.Services
                         .ToArray();
                     break;
                 case "storage":
-                    // hardcoded to config/subscriptions.json for now
+                    // hardcoded to config/rss-notify.json for now
 
                     var connectionString = _configuration["AzureWebJobsStorage"];
                     var storageClient = CloudStorageAccount.Parse(connectionString ?? throw new ArgumentNullException(nameof(connectionString)));
                     var blobClient = storageClient.CreateCloudBlobClient();
                     var container = blobClient.GetContainerReference("config");
                     await container.CreateIfNotExistsAsync(cancellationToken);
-                    var blob = container.GetBlobReference("subscriptions.json");
+                    var blob = container.GetBlobReference("rss-notify.json");
                     if (!(await blob.ExistsAsync(cancellationToken)))
-                        throw new NotSupportedException($"Could not find file config/subscriptions.json. It is required when using 'storage' config source");
+                        throw new NotSupportedException($"Could not find file config/rss-notify.json. It is required when using 'storage' config source");
 
                     using (var ms = new MemoryStream())
                     {
@@ -63,7 +63,11 @@ namespace RssNotify.Services
                         using (var reader = new StreamReader(ms))
                         {
                             var json = await reader.ReadToEndAsync();
-                            _subscriptions = JsonConvert.DeserializeObject<Subscription[]>(json);
+                            var cfg = JsonConvert.DeserializeAnonymousType(json, new
+                            {
+                                subscriptions = new Subscription[0]
+                            });
+                            _subscriptions = cfg.subscriptions;
                         }
                     }
                     break;

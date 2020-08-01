@@ -80,7 +80,7 @@ Alternative sources can be used by setting the `subscriptionSource` key (either 
 Currently these sources are supported:
 
 * nothing set or `config` - default behaviour, will load `Subscriptions--X` keys from IConfiguration where X is any number
-* `storage` - will look for `config/subscriptions.json` and load subscriptions from said file
+* `storage` - will look for `config/rss-notify.json` and load subscriptions from said file
 
 ## Adding subscriptions to IConfiguration
 
@@ -108,19 +108,21 @@ On next run the bot should pick up the new rss source and deliver notifications 
 
 ## Adding subscriptions to storage
 
-The file `config/subscriptions.json` must contain an array like so to have subscriptions load from storage:
+The file `config/rss-notify.json` must contain an array like so to have subscriptions load from storage:
 
 ``` json
-[
-  {
-    "type": "rss",
-    "url": "https://invidio.us/feed/channel/UCsXVk37bltHxD1rDPwtNM8Q",
-    "name": "Kurzgesagt"
-  },
-  {
-    "type": "rss",
-    "url": "https://invidio.us/feed/channel/UCsXVk37bltHxD1rDPwtNM8Q",
-    "name": "Kurzgesagt #2"
-  }
-]
+{
+  "subscriptions": [
+    {
+      "type": "rss",
+      "url": "https://invidio.us/feed/channel/UCsXVk37bltHxD1rDPwtNM8Q",
+      "name": "Kurzgesagt"
+    },
+    {
+      "type": "rss",
+      "url": "https://invidio.us/feed/channel/UCsXVk37bltHxD1rDPwtNM8Q",
+      "name": "Kurzgesagt #2"
+    }
+  ]
+}
 ```
