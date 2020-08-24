@@ -144,7 +144,7 @@ namespace RssNotify.Services
                     {
                         case SyndicationElementType.Item:
                             ISyndicationItem item = await feedReader.ReadItem();
-                            var date = item.Published > item.LastUpdated ? item.Published : item.LastUpdated;
+                            var date = item.Published;
                             var title = item.Title ?? $"update by {subscription.Name}";
                             var link = item.Links.FirstOrDefault()?.Uri?.ToString() ?? subscription.Url;
 
