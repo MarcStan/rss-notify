@@ -21,12 +21,6 @@ namespace RssNotify.Functions
         {
             InjectKeyVaultIntoConfiguration(builder);
 
-            var cfgBuilder = new ConfigurationBuilder()
-                .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables();
-            var tmpConfig = cfgBuilder.Build();
-
             builder.Services.AddOptions<FunctionConfig>()
                 .Configure<IConfiguration>((funcConfig, configuration) => configuration.Bind(funcConfig));
             builder.Services.AddOptions<MatrixConfiguration>()

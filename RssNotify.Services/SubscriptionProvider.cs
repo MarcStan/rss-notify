@@ -1,5 +1,5 @@
-﻿using Microsoft.Azure.Storage;
-using Microsoft.Azure.Storage.Blob;
+﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Specialized;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using RssNotify.Services.Models;
@@ -48,17 +48,18 @@ namespace RssNotify.Services
                     // hardcoded to config/rss-notify.json for now
 
                     var connectionString = _configuration["AzureWebJobsStorage"];
-                    var storageClient = CloudStorageAccount.Parse(connectionString ?? throw new ArgumentNullException(nameof(connectionString)));
-                    var blobClient = storageClient.CreateCloudBlobClient();
-                    var container = blobClient.GetContainerReference("config");
-                    await container.CreateIfNotExistsAsync(cancellationToken);
-                    var blob = container.GetBlobReference("rss-notify.json");
+                    const string containerName = "config";
+
+                    var container = new BlobContainerClient(connectionString, containerName);
+
+                    await container.CreateIfNotExistsAsync(cancellationToken: cancellationToken);
+                    var blob = container.GetBlockBlobClient("rss-notify.json");
                     if (!(await blob.ExistsAsync(cancellationToken)))
                         throw new NotSupportedException($"Could not find file config/rss-notify.json. It is required when using 'storage' config source");
 
                     using (var ms = new MemoryStream())
                     {
-                        await blob.DownloadToStreamAsync(ms, cancellationToken);
+                        await blob.DownloadToAsync(ms, cancellationToken);
                         ms.Position = 0;
                         using (var reader = new StreamReader(ms))
                         {
